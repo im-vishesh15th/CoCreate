@@ -33,7 +33,7 @@ app.use('/documents/user', documentRoutes);
 
 const io = new Server(PORT, {
     cors: {
-        origin: 'http://localhost:3001',
+        origin: '*',
         methods: ['GET', 'POST']
     }
 });
