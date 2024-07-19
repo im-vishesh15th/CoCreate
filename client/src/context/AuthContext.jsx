@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (userData) => {
         try {
             console.log(userData);
-            const response = await axios.post('https://cocreate-80yn.onrender.com/api/auth/login', userData);
+            const response = await axios.post('https://cors-anywhere.herokuapp.com/https://cocreate-80yn.onrender.com/api/auth/login', userData);
            
     
             const user = response.data.user;
