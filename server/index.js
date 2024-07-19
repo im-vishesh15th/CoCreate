@@ -17,14 +17,16 @@ console.log("IO PORT=",PORT);
 Connection();
 
 const corsOptions = {
-    origin: 'https://co-create-create-2.vercel.app', // Allow only your frontend's origin
+    origin: '*', // Your frontend's origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent
-    optionsSuccessStatus: 204
+    allowedHeaders: "Content-Type, Authorization", // Specify the allowed headers
+    optionsSuccessStatus: 200
 };
 
 
-app.use(cors());
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/documents/user', documentRoutes);
