@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   
     
     const register = async (userData) => {
-        const response = await axios.post('https://glittering-sopapillas-817a00.netlify.app/api/auth/register', userData);
+        const response = await axios.post('https://cocreate-80yn.onrender.com/api/auth/register', userData);
        
         setUser(response.data);
         localStorage.setItem('token', response.data.token);
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (userData) => {
         try {
             console.log(userData);
-            const response = await axios.post('https://glittering-sopapillas-817a00.netlify.app/api/auth/login', userData);
+            const response = await axios.post('https://cocreate-80yn.onrender.com/api/auth/login', userData);
            
     
             const user = response.data.user;
