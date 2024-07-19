@@ -11,13 +11,13 @@ dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 9000;
-const PORT2 = process.env.PORT2 || 3000;
+const PORT = process.env.PORT || 3000;
+
 console.log("IO PORT=",PORT);
 Connection();
 
 const corsOptions = {
-    origin: '*', // Your frontend's origin
+    origin: 'https://co-create-create-2.vercel.app', // Your frontend's origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent
     allowedHeaders: "Content-Type, Authorization", // Specify the allowed headers
@@ -29,31 +29,19 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); 
 app.use(express.json());
-app.post('/api/auth/login', (req, res) => {
-    // Your login logic here
-    res.status(200).json({ message: 'Login successful' });
+
+const server = app.listen(PORT2, () => {
+    console.log(`Server is running on port ${PORT2}`);
 });
-app.use('/documents/user', documentRoutes);
-app.all('*', function(req, res, next) {
-    if (req.method === 'OPTIONS') {
-      // Handle pre-flight requests
-      res.header('Access-Control-Allow-Origin', corsOptions.origin);
-      res.header('Access-Control-Allow-Methods', corsOptions.methods);
-      res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
-      res.status(200).send();
-    } else {
-      next();
-    }
-  });
 
-
-
-const io = new Server(PORT, {
+// Initialize Socket.IO with the server
+const io = new Server(server, {
     cors: {
-        origin: '*',
+        origin: '*', // Your frontend's URL
         methods: ['GET', 'POST']
     }
 });
+
 
 io.on('connection', socket => {
    
@@ -86,6 +74,4 @@ io.on('connection', socket => {
         });
     });
 });
-app.listen(PORT2, () => {
-    console.log(`Backend server is running on port ${PORT2}!`);
-});
+
