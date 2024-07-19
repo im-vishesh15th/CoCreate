@@ -10,7 +10,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.7.2",
+    "axios": "^1.6.7",
     "file-saver": "^2.0.5",
     "firebase": "^10.12.3",
     "firebase-tools": "^13.13.3",
