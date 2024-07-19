@@ -10,10 +10,10 @@ import documentRoutes from './routes/documentRoutes.js';
 dotenv.config();
 
 const app = express();
-const router = express.Router();
+
 const PORT = process.env.PORT || 9000;
 const PORT2 = process.env.PORT || 3000;
-
+console.log("IO PORT=",PORT);
 Connection();
 
 const corsOptions = {
@@ -23,9 +23,6 @@ const corsOptions = {
     optionsSuccessStatus: 204
 };
 
-router.get('/',(req,res)=>{
-res.send('App is Running..');
-});
 
 app.use(cors(corsOptions));
 app.use(express.json());
