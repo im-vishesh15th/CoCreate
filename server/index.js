@@ -28,6 +28,17 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/documents/user', documentRoutes);
+app.all('*', function(req, res, next) {
+    if (req.method === 'OPTIONS') {
+      // Handle pre-flight requests
+      res.header('Access-Control-Allow-Origin', corsOptions.origin);
+      res.header('Access-Control-Allow-Methods', corsOptions.methods);
+      res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
+      res.status(200).send();
+    } else {
+      next();
+    }
+  });
 
 
 
