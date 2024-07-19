@@ -27,8 +27,10 @@ const corsOptions = {
 
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
 app.use(express.json());
+app.use('/api/auth', authRoutes);
+app.use('/documents/user', documentRoutes);
+
 
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
