@@ -30,8 +30,8 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); 
 app.use(express.json());
 
-const server = app.listen(PORT2, () => {
-    console.log(`Server is running on port ${PORT2}`);
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
 // Initialize Socket.IO with the server
