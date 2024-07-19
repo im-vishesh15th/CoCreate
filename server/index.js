@@ -17,7 +17,7 @@ console.log("IO PORT=",PORT);
 Connection();
 
 const corsOptions = {
-    origin: 'http://localhost:3001', // Allow only your frontend's origin
+    origin: 'https://co-create-g245joz1l-vishesh-guptas-projects.vercel.app/', // Allow only your frontend's origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent
     optionsSuccessStatus: 204
