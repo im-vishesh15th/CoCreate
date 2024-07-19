@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 9000;
-const PORT2 = process.env.PORT || 3000;
+const PORT2 = process.env.PORT2 || 3000;
 console.log("IO PORT=",PORT);
 Connection();
 
