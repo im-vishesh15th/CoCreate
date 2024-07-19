@@ -188,7 +188,7 @@ const Dashboard = () => {
       const id = uuid();
       const coverpageno = Math.floor(Math.random() * (10) + 1);
      
-      await axios.post(`https://glittering-sopapillas-817a00.netlify.app/documents/user/doc/new`, { id, user, coverpageno });
+      await axios.post(`https://cocreate-80yn.onrender.com/documents/user/doc/new`, { id, user, coverpageno });
       navigate(`/docs/${id}`);
     } catch (error) {
       console.error('Error fetching documents:', error);
@@ -199,7 +199,7 @@ const Dashboard = () => {
     if (user) {
       const fetchDocuments = async () => {
         try {
-          const { data } = await axios.get(`http://localhost:3000/documents/user/${user._id}`, { withCredentials: true });
+          const { data } = await axios.get(`https://cocreate-80yn.onrender.com/documents/user/${user._id}`, { withCredentials: true });
          
           setDocuments(data);
         } catch (error) {
