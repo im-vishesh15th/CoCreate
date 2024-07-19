@@ -29,7 +29,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); 
 app.use(express.json());
-app.use('/api/auth', authRoutes);
+app.post('/api/auth/login', (req, res) => {
+    // Your login logic here
+    res.status(200).json({ message: 'Login successful' });
+});
 app.use('/documents/user', documentRoutes);
 app.all('*', function(req, res, next) {
     if (req.method === 'OPTIONS') {
