@@ -296,7 +296,7 @@ const Editor = () => {
     try {
       const token = localStorage.getItem('token');
       const documentId = id;
-      const res = await axios.post('http://localhost:3000/documents/user/get-collaborator', {
+      const res = await axios.post('https://cocreate-80yn.onrender.com/documents/user/get-collaborator', {
         documentId,
     }, {
         headers: {
