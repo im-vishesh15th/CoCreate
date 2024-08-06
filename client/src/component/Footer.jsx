@@ -13,6 +13,9 @@ import {
     display: flex;
     /* flex-direction:column; */
     background-color: #000000;
+    @media (max-width: 800px) {
+    flex-direction: column;
+    }
   
   `;
 
@@ -27,9 +30,10 @@ import {
     display: flex;
     flex-direction: column;
     padding: 20px;
+margin: auto;
   `;
   
-  const Logo = styled.h1``;
+
   
   const Desc = styled.p`
     margin: 20px 0px;
@@ -57,6 +61,9 @@ import {
   const Center = styled.div`
     flex: 1;
     padding: 20px;
+    @media (max-width: 800px) {
+    display: none;
+    }
    
   `;
   
@@ -84,6 +91,7 @@ import {
   const Right = styled.div`
     flex: 1;
     padding: 20px;
+    
    
   `;
   
