@@ -319,7 +319,7 @@ const Dashboard = () => {
             </Typography>
             <Grid container spacing={3}>
               {filteredDocuments.codocids.map((doc) => (
-                <Grid item xs={12} sm={6} md={4} key={doc._id}>
+                <Grid item xs={6} sm={6} md={4} key={doc._id}>
                   <motion.div whileHover={{ scale: 1.05 }}>
                     <StyledCard>
                       <ImageContainer>
