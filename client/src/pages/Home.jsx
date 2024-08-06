@@ -62,6 +62,10 @@ const WelcomeText = styled.h1`
   animation: ${typing} 4s steps(30, end) 1, ${blinkCaret} 0.75s step-end infinite;
   border-right: 2px solid #fff;
   margin-bottom: 20px;
+
+  @media (max-width: 800px) {
+   font-size: 2rem;
+    }
 `;
 
 // Subtext below the welcome message
@@ -69,6 +73,9 @@ const SubText = styled.p`
   font-size: 1.5rem;
   color: #aaa;
   margin-bottom: 60px;
+  @media (max-width: 800px) {
+   font-size: 1.3rem;
+    }
 `;
 
 // Button container for Register and Login buttons
