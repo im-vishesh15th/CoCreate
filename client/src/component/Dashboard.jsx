@@ -1,54 +1,151 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import { Search, LogOut, Plus } from 'lucide-react';
+
+import  { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  CardActions,
-  TextField,
-  IconButton,
-
-
-} from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
 import { v4 as uuid } from 'uuid';
-import SearchIcon from '@mui/icons-material/Search';
-import { Avatar } from "@mui/material";
-import logo from "../logo.png"
+import { Avatar ,Box} from "@mui/material";
+import { motion } from 'framer-motion';
 
-
-const BackgroundBox = styled(Box)`
-  background-color: #000;
+const DashboardContainer = styled.div`
+  font-family: 'Playfair Display', serif;
+  color: #333;
   min-height: 100vh;
-  padding-top: 2rem;
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
 `;
 
-const StyledCard = styled(Card)`
-  border-radius: 15px;
-  background: #1a1a1a;
-  color: #e0e0e0;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 40px rgba(225, 255, 1, 0.7);
+const Header = styled.header`
+  background-color: #fff;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const AnimatedBox = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right:auto;
+  color: #000000;
+  font-size: 4rem;
+  justify-content:center;
+  text-align: center;
+
+  @media (max-width: 800px) {
+    margin-left: 0;
+    font-size: 2.9rem;
+  }
+  @media (max-width: 600px) {
+    margin-left: 0;
+    font-size: 1.9rem;
+  }
+`;
+
+
+
+const Logo = styled.h1`
+  font-size: 2rem;
+  color: #000;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+const SearchBar = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  width: 300px;
+  max-width: 100%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
-  
+  input {
+    border: none;
+    background: transparent;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    &:focus {
+      outline: none;
+    }
+  }
 `;
 
+const UserActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+`;
+
+
+
+const LogoutButton = styled.button`
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+`;
+
+const MainContent = styled.main`
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 3rem;
+  color: #000;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
 const ImageContainer = styled.div`
   height: 250px;
   width: auto;
@@ -57,10 +154,13 @@ const ImageContainer = styled.div`
   border-top-right-radius: 15px;
   overflow: hidden;
 
+
   img {
     width: 100%;
     height: 100%;
     object-fit: fill;
+
+  
   }
 
   @media (max-width: 600px) {
@@ -68,99 +168,118 @@ const ImageContainer = styled.div`
   }
 `;
 
-const GradientButton = styled(Button)`
-  background: linear-gradient(145deg, #4000ffdd, #ffee0091);
-  color: #fff;
+const DocumentGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+`;
+
+const DocumentCard = styled.div`
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid black;
   &:hover {
-    background: linear-gradient(145deg, #4000ff66, #ffee0047);
-    border: px solid grey;
-  }
-  
-  @media (max-width: 600px) {
-    width: 100%;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.563);
   }
 `;
 
-const AnimatedBox = styled(motion.div)`
+
+const DocumentInfo = styled.div`
+  padding: 1rem;
+  
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+  }
+`;
+
+const DocumentTitle = styled.h3`
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+`;
+
+const DocumentDate = styled.p`
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+`;
+
+const CreateNewButton = styled.button`
+  width: 70mm;
+  height: 90mm;
+  max-width: 100%;
+  max-height: 80vh;
+  background-color: #fff;
+  border: 2px dashed #000;
+  border-radius: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 60px;
-  margin-left: 20px;
-  color: white;
-  font-size: 3.5rem;
   justify-content: center;
-  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 2rem auto;
 
-  @media (max-width: 600px) {
-    margin-left: 0;
-    font-size: 1.5rem;
+  &:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+  }
+
+  @media (max-width: 768px) {
+    width: 50mm;
+    height: 60mm;
   }
 `;
 
 
+const CreateNewIcon = styled.div`
+  font-size: 3rem;
+  margin-bottom: 1rem;
+`;
 
-const StyledTextField = styled(TextField)`
-  .MuiOutlinedInput-root {
-    background-color: #1a1a1a;
-    input {
-      color: #fff;
-    }
+const CreateNewText = styled.p`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
   }
-  fieldset {
-    border-color: #555;
-  }
-  &:hover fieldset {
-    border-color: #777;
-  }
+`;
+
+export default function Dash() {
   
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-`;
-
-
-
-const LogoImage = styled.img`
-  height: 100px;
-  width: auto;
-  margin-bottom: 20px;
-  transform: translateX(-50%);
-  
-  @media (max-width: 600px) {
-    height: 80px;
-    margin-bottom: 10px;
-    margin-left:20%
-  }
-`;
-
-
-const ProfileBox = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const AvatarWrapper = styled(Box)`
-  display: flex;
-  align-items: center;
-
-  @media (max-width: 600px) {
-    width: 100%;
-    justify-content: space-between;
-  }
-`;
-
-const Dashboard = () => {
   const { user ,logout} = useAuth();
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState({ docids: [], codocids: [] });
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredDocuments, setFilteredDocuments] = useState([]);
+  const [filteredDocuments, setFilteredDocuments] = useState({ docids: [], codocids: [] });
   const navigate = useNavigate();
 
 
@@ -171,15 +290,15 @@ const Dashboard = () => {
     if (searchTerm.trim() === '') {
       setFilteredDocuments(documents);
     } else {
-     
-      const filtered = documents.docids.filter(doc =>
-        doc.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      const filtered2 = documents.codocids.filter(doc =>
-        doc.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    
-      setFilteredDocuments({ docids: [...filtered], codocids: [...filtered2] });
+      const filtered = {
+        docids: documents.docids.filter(doc =>
+          doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+        ),
+        codocids: documents.codocids.filter(doc =>
+          doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      };
+      setFilteredDocuments(filtered);
     }
   
   }, [documents, searchTerm]);
@@ -220,51 +339,39 @@ const Dashboard = () => {
    navigate('/');
   }
 
-  return (
-    <BackgroundBox>
-      <Box sx={{ height: '155px', backgroundColor: 'black', borderBottom: '1px solid white',
-         display: 'flex', alignItems: 'center', justifyContent: 'space-around', width: '100%', zIndex: '2', marginTop: '0px' }}>
-        <LogoImage src={logo} alt="Logo" />
-      </Box>
-      <Container maxWidth="lg" >
-      <ProfileBox>
-    <AvatarWrapper>
-      <Avatar style={{ height: "60px", width: "60px", border: "solid gray 2px", margin: "20px" }} src={user.profileImage} />
-      <GradientButton 
-        startIcon={<LogoutIcon />} 
-        onClick={logoutfunc}
-        sx={{ ml: 2 }}
-      >
-        Logout
-      </GradientButton>
-    </AvatarWrapper>
-  </ProfileBox>
-  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-  <StyledTextField
-    placeholder="Search documents..."
-    value={searchTerm}
-    onChange={handleSearchInputChange}
-    InputProps={{
-      endAdornment: (
-        <IconButton>
-          <SearchIcon sx={{ color: 'white' }} />
-        </IconButton>
-      ),
-    }}
-    sx={{ width: '100%', marginBottom: '1rem' }}
-  />
-</Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", flex: 1 }}>
 
-          <GradientButton
-            variant="contained"
-            startIcon={<AddIcon />}
+
+  return (
+    <DashboardContainer>
+      <Header>
+        <Logo>CoCreate</Logo>
+        <SearchBar>
+          <Search size={20} />
+          <input type="text" placeholder="Search documents..."  value={searchTerm}
+        onChange={handleSearchInputChange}/>
+        </SearchBar>
+        <UserActions>
+         
+          <Avatar style={{ height: "60px", width: "60px", border: "solid gray 2px"}} src={user.profileImage} />
+          
+          <LogoutButton onClick={logoutfunc}>
+            <LogOut size={18} />
+            Logout
+          </LogoutButton>
+        </UserActions>
+      </Header>
+      <MainContent>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", flex: 1 }}>
+        <CreateNewButton variant="contained"
+            
             onClick={() => fetchnewDocuments()}
-            sx={{ m: 3, width: '300px', height: '400px',' @media (max-width: 600px)':{height:'100px'} }}
-          >
-            New Document
-          </GradientButton>
-          <AnimatedBox
+            sx={{ m: 3, width: '300px', height: '400px',' @media (max-width: 600px)':{height:'100px'} }}>
+          <CreateNewIcon>
+            <Plus size={48} />
+          </CreateNewIcon>
+          <CreateNewText>Create New Document</CreateNewText>
+        </CreateNewButton>
+        <AnimatedBox
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5 }}
@@ -275,83 +382,50 @@ const Dashboard = () => {
           </AnimatedBox>
         </Box>
 
+        {filteredDocuments.docids.length === 0 && filteredDocuments.codocids.length === 0 && <SectionTitle>No Matches Found...</SectionTitle>}
         {filteredDocuments.docids && filteredDocuments.docids.length > 0 && (
           <>
-            <Typography sx={{ color: '#ff5500da', fontSize: '2.5rem' }} variant="h5" gutterBottom>
-              Your Documents
-            </Typography>
-            <Grid container spacing={3}>
-              {filteredDocuments.docids.map((doc) => (
-                <Grid item xs={6} sm={6} md={4} key={doc._id}>
-                  <motion.div whileHover={{ scale: 1.05 }}>
-                    <StyledCard>
-                      <ImageContainer>
+        <SectionTitle>My Documents</SectionTitle>
+        <DocumentGrid>
+          {filteredDocuments.docids.map((doc) => (
+            <DocumentCard key={doc.id}  onClick={() => navigate(`/docs/${doc._id}`)}>
+             
+                 <ImageContainer>
                         <img src={require(`../placeholders/${doc.coverpageno}.jpg`)} alt="coverpage" />
 
                       </ImageContainer>
-                      <CardContent>
-                        <Typography variant="h6">
-                          {doc.title}.txt
-                        </Typography>
-                        {doc.updatedAt && <Typography variant="h9" sx={{ color: "pink" }}>
-                          Last Modified at {doc.updatedAt.substring(0, 10)}
-                        </Typography>}
-                      </CardContent>
-                      <CardActions>
-                        <GradientButton
-                          startIcon={<EditIcon />}
-                          onClick={() => navigate(`/docs/${doc._id}`)}
-                        >
-                          Edit
-                        </GradientButton>
-                      </CardActions>
-                    </StyledCard>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          </>
+              
+              <DocumentInfo>
+                <DocumentTitle>{doc.title}.txt</DocumentTitle>
+                <DocumentDate>Last modified: {doc.updatedAt.substring(0, 10)}</DocumentDate>
+              </DocumentInfo>
+            </DocumentCard>
+          ))}
+        </DocumentGrid>
+        </>
         )}
-        {filteredDocuments.codocids && filteredDocuments.codocids.length > 0 && (
-          <>
-            <Typography sx={{ color: '#ff5500da', fontSize: '2.5rem', mt: "4" }} variant="h5" gutterBottom>
-              Shared Documents
-            </Typography>
-            <Grid container spacing={3}>
-              {filteredDocuments.codocids.map((doc) => (
-                <Grid item xs={6} sm={6} md={4} key={doc._id}>
-                  <motion.div whileHover={{ scale: 1.05 }}>
-                    <StyledCard>
-                      <ImageContainer>
+    {filteredDocuments.codocids && filteredDocuments.codocids.length > 0 && (
+       <>
+       <SectionTitle>Shared with Me</SectionTitle>
+        <DocumentGrid>
+          {filteredDocuments.codocids.map((doc) => (
+            <DocumentCard key={doc.id}  onClick={() => navigate(`/docs/${doc._id}`)}>
+              {/* <DocumentCover> */}
+              <ImageContainer>
                         <img src={require(`../placeholders/${doc.coverpageno}.jpg`)} alt="coverpage" />
-                      </ImageContainer>
-                      <CardContent>
-                        <Typography variant="h6">
-                          {doc.title && doc.title}.txt
-                        </Typography>
-                        {doc.updatedAt && <Typography variant="h9" sx={{ color: "pink" }}>
-                          Last Modified at {doc.updatedAt.substring(0, 10)}
-                        </Typography>}
-                      </CardContent>
-                      <CardActions>
-                        <GradientButton
-                          startIcon={<EditIcon />}
-                          onClick={() => navigate(`/docs/${doc._id}`)}
-                        >
-                          Edit
-                        </GradientButton>
-                      </CardActions>
-                    </StyledCard>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
-          </>
-        )}
 
-      </Container>
-    </BackgroundBox>
+                      </ImageContainer>
+              {/* </DocumentCover> */}
+              <DocumentInfo>
+                <DocumentTitle>{doc.title}.txt</DocumentTitle>
+                <DocumentDate>Last modified: {doc.updatedAt && doc.updatedAt.substring(0, 10)} </DocumentDate>
+              </DocumentInfo>
+            </DocumentCard>
+          ))}
+        </DocumentGrid>
+        </>
+        )}
+      </MainContent>
+    </DashboardContainer>
   );
-};
-
-export default Dashboard;
+}
