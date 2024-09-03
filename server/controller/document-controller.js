@@ -99,7 +99,7 @@ export const updateDocument = async (_id, dat) => {
        
         
                 const codocidsData = await Promise.all(user.codocids.map(async (codoc) => {
-                    const document = await Document.findById(codoc).select('title _id updatdAt coverpageno');
+                    const document = await Document.findById(codoc).select('title _id updatedAt coverpageno');
                     return document;
                 }));
         
