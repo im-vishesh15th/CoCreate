@@ -17,7 +17,7 @@ console.log("IO PORT=",PORT);
 Connection();
 
 const corsOptions = {
-    origin: ['https://co-create-create-2.vercel.app','https://co-create-create-2-vishesh-guptas-projects.vercel.app','https://co-create-create-2-git-main-vishesh-guptas-projects.vercel.app'], // Your frontend's origin
+    origin: ['https://co-create-create-2.vercel.app','https://co-create-ui-vishesh-guptas-projects.vercel.app','https://co-create-ui-git-main-vishesh-guptas-projects.vercel.app'], // Your frontend's origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Allow cookies to be sent
     allowedHeaders: "Content-Type, Authorization", // Specify the allowed headers
