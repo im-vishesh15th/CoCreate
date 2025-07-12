@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     // Update the API URLs to your production URLs
-    const apiBaseURL = 'https://cocreate-80yn.onrender.com/api/auth';
+    const apiBaseURL = 'https://cocreate-o3gz.onrender.com/api/auth';
 
     const register = async (userData) => {
         try {

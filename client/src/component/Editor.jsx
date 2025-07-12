@@ -95,7 +95,7 @@ const Editor = () => {
     
     const fetchDocument = async () => {
       try {
-        const response = await axios.get(`https://cocreate-80yn.onrender.com/documents/user/doc/${id}`, { withCredentials: true });
+        const response = await axios.get(`https://cocreate-o3gz.onrender.com/documents/user/doc/${id}`, { withCredentials: true });
         setTitle(response.data.title);
         if (response.data.user === user._id) {
           setAccess(true);
@@ -104,7 +104,7 @@ const Editor = () => {
         }
         const token = localStorage.getItem('token');
         const documentId = id;
-        const res = await axios.post('https://cocreate-80yn.onrender.com/documents/user/get-collaborator', {
+        const res = await axios.post('https://cocreate-o3gz.onrender.com/documents/user/get-collaborator', {
           documentId,
         }, {
           headers: {
@@ -159,7 +159,7 @@ const Editor = () => {
   useEffect(() => {
     if (!access) return;
 
-    const socketServer = io('https://cocreate-80yn.onrender.com');
+    const socketServer = io('https://cocreate-o3gz.onrender.com');
     setSocket(socketServer);
 
     return () => {
@@ -296,7 +296,7 @@ const Editor = () => {
     try {
       const token = localStorage.getItem('token');
       const documentId = id;
-      const res = await axios.post('https://cocreate-80yn.onrender.com/documents/user/get-collaborator', {
+      const res = await axios.post('https://cocreate-o3gz.onrender.com/documents/user/get-collaborator', {
         documentId,
     }, {
         headers: {
