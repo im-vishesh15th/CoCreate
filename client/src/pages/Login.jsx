@@ -18,7 +18,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg?w=2000&t=st=1721074043~exp=1721074643~hmac=90cb94d9d98f73bf56e8f088b5d65bb312aa662eabebccf850b7c75776285a1e") center;
+  background: url("https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") center;
   background-size: cover;
   animation: ${fadeIn} 1s ease-in;
   padding: 10px;
